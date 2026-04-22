@@ -8,7 +8,7 @@
 
 | 階段 | 狀態 | 完成日期 |
 |------|------|---------|
-| Phase 1：基礎建設 + SSG + ISR | ⬜ 未開始 | - |
+| Phase 1：基礎建設 + SSG + ISR | ✅ 完成 | 2026-04-22 |
 | Phase 2：SSR + 身份驗證 + Server Actions | ⬜ 未開始 | - |
 | Phase 3：Zustand Small Stores | ⬜ 未開始 | - |
 | Phase 4：持久化與 Hydration | ⬜ 未開始 | - |
@@ -20,12 +20,12 @@
 
 ## Phase 1 細項
 
-- [ ] 1.1 `npx create-next-app` 完成，`npm run dev` 可執行
-- [ ] 1.1 安裝所有依賴（zustand, axios, next-auth, prisma, bcryptjs）
-- [ ] 1.1 建立 `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`
-- [ ] 1.2 `/coins/[id]` 頁面 + `generateStaticParams`
-- [ ] 1.2 `generateMetadata` 動態 SEO meta
-- [ ] 1.3 `/market/news` ISR 頁面（revalidate: 60）
+- [x] 1.1 `npx create-next-app` 完成，`npm run dev` 可執行
+- [x] 1.1 安裝所有依賴（zustand, axios, next-auth, prisma, bcryptjs）
+- [x] 1.1 建立 `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`
+- [x] 1.2 `/coins/[id]` 頁面 + `generateStaticParams`
+- [x] 1.2 `generateMetadata` 動態 SEO meta
+- [x] 1.3 `/market/news` ISR 頁面（revalidate: 60）
 
 ## Phase 2 細項
 
@@ -66,8 +66,8 @@
 
 <!-- 每次停下來時更新這裡 -->
 **最後更新：** 2026-04-22
-**停在：** 尚未開始，準備從 Phase 1.1 開始
-**下一步：** 執行 `npx create-next-app@latest crypto-dashboard`
+**停在：** Phase 1 完成
+**下一步：** Phase 2 — Prisma Schema + NextAuth + SSR Dashboard
 
 ---
 
@@ -75,7 +75,7 @@
 
 | 項目 | 內容 |
 |------|------|
-| Node.js 版本 | （填入：`node -v`） |
-| npm 版本 | （填入：`npm -v`） |
-| 專案路徑 | `D:\Git\Claude Code\Nextjs` |
-| Next.js 版本 | 15（latest） |
+| Node.js 版本 | v24.14.1 |
+| npm 版本 | 11.12.1 |
+| 專案路徑 | `D:\Git\Claude Code\nextjs\crypto-dashboard` |
+| Next.js 版本 | 16.2.4（installed latest） |
