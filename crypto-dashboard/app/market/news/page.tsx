@@ -19,12 +19,17 @@ interface Coin {
 }
 
 async function getMarket(): Promise<Coin[]> {
-  const res = await fetch(
-    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10',
-    { next: { revalidate: 60 } }
-  );
-  if (!res.ok) throw new Error('Failed to fetch market data');
-  return res.json();
+  try {
+    const base = process.env.COINGECKO_BASE_URL;
+    const res = await fetch(
+      `${base}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10`,
+      { next: { revalidate: 60 }, signal: AbortSignal.timeout(10000) }
+    );
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
 }
 
 export default async function MarketNewsPage() {
@@ -34,7 +39,13 @@ export default async function MarketNewsPage() {
     <div className="max-w-3xl mx-auto px-6 py-10">
       <h1 className="text-2xl font-bold mb-6">Market Overview</h1>
 
-      <div className="bg-white rounded-lg border overflow-hidden">
+      {coins.length === 0 && (
+        <p className="text-sm text-gray-500 py-8 text-center">
+          Market data is temporarily unavailable. Please try again later.
+        </p>
+      )}
+
+      {coins.length > 0 && <div className="bg-white rounded-lg border overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
@@ -72,7 +83,7 @@ export default async function MarketNewsPage() {
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
 
       <p className="text-xs text-gray-400 mt-4">
         Rendered with ISR — revalidates every 60 seconds in the background

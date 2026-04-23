@@ -16,7 +16,7 @@ export default function Error({
   return (
     <div className="flex flex-col items-center justify-center min-h-64 gap-4">
       <h2 className="text-xl font-semibold text-gray-800">Something went wrong</h2>
-      <p className="text-sm text-gray-500">{error.message}</p>
+      <p className="text-sm text-gray-500">An unexpected error occurred. Please try again.</p>
       <button
         onClick={reset}
         className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"

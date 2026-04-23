@@ -25,12 +25,17 @@ interface CoinDetail {
 }
 
 const getCoin = cache(async function getCoin(id: string): Promise<CoinDetail | null> {
-  const res = await fetch(
-    `https://api.coingecko.com/api/v3/coins/${id}`,
-    { cache: 'force-cache' }
-  );
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    const base = process.env.COINGECKO_BASE_URL;
+    const res = await fetch(
+      `${base}/coins/${id}`,
+      { cache: 'force-cache', signal: AbortSignal.timeout(10000) }
+    );
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
 });
 
 export async function generateStaticParams() {
@@ -39,6 +44,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  if (!COINS.includes(id)) return { title: 'Not Found' };
   const coin = await getCoin(id);
   if (!coin) return { title: 'Not Found' };
 
@@ -50,6 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CoinPage({ params }: Props) {
   const { id } = await params;
+  if (!COINS.includes(id)) notFound();
   const coin = await getCoin(id);
 
   if (!coin) notFound();
