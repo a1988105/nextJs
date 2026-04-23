@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
@@ -20,14 +21,14 @@ interface CoinDetail {
   };
 }
 
-async function getCoin(id: string): Promise<CoinDetail | null> {
+const getCoin = cache(async function getCoin(id: string): Promise<CoinDetail | null> {
   const res = await fetch(
     `https://api.coingecko.com/api/v3/coins/${id}`,
     { cache: 'force-cache' }
   );
   if (!res.ok) return null;
   return res.json();
-}
+});
 
 export async function generateStaticParams() {
   return COINS.map((id) => ({ id }));
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${coin.name} (${coin.symbol.toUpperCase()}) | Crypto Dashboard`,
-    description: coin.description.en.slice(0, 160),
+    description: coin.description.en.replace(/<[^>]*>/g, '').slice(0, 160),
   };
 }
 

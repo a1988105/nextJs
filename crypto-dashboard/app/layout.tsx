@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -21,8 +22,8 @@ function Navbar() {
   return (
     <nav className="border-b border-gray-200 bg-white px-6 py-3 flex items-center gap-6">
       <span className="font-bold text-lg">Crypto Dashboard</span>
-      <a href="/" className="text-sm text-gray-600 hover:text-gray-900">Home</a>
-      <a href="/market/news" className="text-sm text-gray-600 hover:text-gray-900">Market</a>
+      <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">Home</Link>
+      <Link href="/market/news" className="text-sm text-gray-600 hover:text-gray-900">Market</Link>
     </nav>
   );
 }
