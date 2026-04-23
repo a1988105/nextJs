@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Market Overview | Crypto Dashboard',
@@ -52,8 +53,7 @@ export default async function MarketNewsPage() {
                   <td className="px-4 py-3 text-gray-400">{coin.market_cap_rank}</td>
                   <td className="px-4 py-3">
                     <Link href={`/coins/${coin.id}`} className="flex items-center gap-2 hover:underline">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={coin.image} alt={coin.name} width={24} height={24} className="rounded-full" />
+                      <Image src={coin.image} alt={coin.name} width={24} height={24} className="rounded-full" />
                       <span className="font-medium">{coin.name}</span>
                       <span className="text-gray-400 uppercase text-xs">{coin.symbol}</span>
                     </Link>

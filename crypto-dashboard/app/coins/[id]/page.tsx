@@ -1,6 +1,9 @@
 import { cache } from 'react';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import type { Metadata } from 'next';
+
+const HTML_TAG_REGEX = /<[^>]*>/g;
 
 const COINS = ['bitcoin', 'ethereum', 'solana'];
 
@@ -41,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${coin.name} (${coin.symbol.toUpperCase()}) | Crypto Dashboard`,
-    description: coin.description.en.replace(/<[^>]*>/g, '').slice(0, 160),
+    description: coin.description.en.replace(HTML_TAG_REGEX, '').slice(0, 160),
   };
 }
 
@@ -57,8 +60,7 @@ export default async function CoinPage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
       <div className="flex items-center gap-4 mb-6">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={coin.image.large} alt={coin.name} width={64} height={64} className="rounded-full" />
+        <Image src={coin.image.large} alt={coin.name} width={64} height={64} className="rounded-full" />
         <div>
           <h1 className="text-2xl font-bold">{coin.name}</h1>
           <span className="text-gray-500 uppercase text-sm">{coin.symbol}</span>
@@ -86,14 +88,14 @@ export default async function CoinPage({ params }: Props) {
         </div>
       </div>
 
-      {coin.description.en && (
+      {coin.description.en ? (
         <div className="bg-white rounded-lg border p-4">
           <h2 className="font-semibold mb-2">About {coin.name}</h2>
           <p className="text-sm text-gray-600 leading-relaxed line-clamp-6">
-            {coin.description.en.replace(/<[^>]*>/g, '')}
+            {coin.description.en.replace(HTML_TAG_REGEX, '')}
           </p>
         </div>
-      )}
+      ) : null}
 
       <p className="text-xs text-gray-400 mt-4">
         Rendered with SSG (force-cache) — data fetched at build time
