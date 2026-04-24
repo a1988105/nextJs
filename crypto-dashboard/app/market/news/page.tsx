@@ -64,7 +64,14 @@ export default async function MarketNewsPage() {
                   <td className="px-4 py-3 text-gray-400">{coin.market_cap_rank}</td>
                   <td className="px-4 py-3">
                     <Link href={`/coins/${coin.id}`} className="flex items-center gap-2 hover:underline">
-                      <Image src={coin.image} alt={coin.name} width={24} height={24} className="rounded-full" />
+                      <Image
+                        src={coin.image}
+                        alt={coin.name}
+                        width={24}
+                        height={24}
+                        className="rounded-full"
+                        unoptimized
+                      />
                       <span className="font-medium">{coin.name}</span>
                       <span className="text-gray-400 uppercase text-xs">{coin.symbol}</span>
                     </Link>

@@ -67,7 +67,15 @@ export default async function CoinPage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
       <div className="flex items-center gap-4 mb-6">
-        <Image src={coin.image.large} alt={coin.name} width={64} height={64} className="rounded-full" />
+        <Image
+          src={coin.image.large}
+          alt={coin.name}
+          width={64}
+          height={64}
+          className="rounded-full"
+          unoptimized
+          priority
+        />
         <div>
           <h1 className="text-2xl font-bold">{coin.name}</h1>
           <span className="text-gray-500 uppercase text-sm">{coin.symbol}</span>

@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === 'production';
+
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
@@ -7,7 +9,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' assets.coingecko.com data: blob:",
+      "img-src 'self' assets.coingecko.com coin-images.coingecko.com data: blob:",
       "font-src 'self'",
       "connect-src 'self'",
       "frame-ancestors 'none'",
@@ -20,9 +22,16 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [{ hostname: 'assets.coingecko.com' }],
+    remotePatterns: [
+      { hostname: 'assets.coingecko.com' },
+      { hostname: 'coin-images.coingecko.com' },
+    ],
   },
   async headers() {
+    if (!isProd) {
+      return [];
+    }
+
     return [{ source: '/(.*)', headers: securityHeaders }];
   },
 };
