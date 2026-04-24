@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 const HTML_TAG_REGEX = /<[^>]*>/g;
@@ -64,56 +65,76 @@ export default async function CoinPage({ params }: Props) {
   const priceChange = coin.market_data.price_change_percentage_24h;
   const isPositive = priceChange >= 0;
 
+  const description = coin.description.en.replace(HTML_TAG_REGEX, '');
+
   return (
-    <div className="max-w-2xl mx-auto px-6 py-10">
-      <div className="flex items-center gap-4 mb-6">
-        <Image
-          src={coin.image.large}
-          alt={coin.name}
-          width={64}
-          height={64}
-          className="rounded-full"
-          unoptimized
-          priority
-        />
+    <div className="max-w-2xl mx-auto px-6 py-12">
+      {/* Back */}
+      <Link
+        href="/market/news"
+        className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-amber-400 transition-colors duration-150 mb-9 fade-up delay-1"
+      >
+        ← Market Overview
+      </Link>
+
+      {/* Hero */}
+      <div className="flex items-center gap-5 mb-10 fade-up delay-1">
+        <div className="relative flex-shrink-0">
+          <div className="absolute inset-0 rounded-full bg-amber-400/20 blur-2xl scale-150 pointer-events-none" />
+          <Image
+            src={coin.image.large}
+            alt={coin.name}
+            width={72}
+            height={72}
+            className="relative rounded-full"
+            unoptimized
+            priority
+          />
+        </div>
         <div>
-          <h1 className="text-2xl font-bold">{coin.name}</h1>
-          <span className="text-gray-500 uppercase text-sm">{coin.symbol}</span>
+          <h1 className="text-4xl font-black text-white tracking-tight leading-none">
+            {coin.name}
+          </h1>
+          <span className="num text-gray-500 uppercase text-sm tracking-widest mt-1 block">
+            {coin.symbol}
+          </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="bg-white rounded-lg border p-4">
-          <p className="text-xs text-gray-500 mb-1">Current Price</p>
-          <p className="text-xl font-semibold">
+      {/* Metrics grid */}
+      <div className="grid grid-cols-2 gap-4 mb-5 fade-up delay-2">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5">
+          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Current Price</p>
+          <p className="num text-2xl font-bold text-white">
             ${coin.market_data.current_price.usd.toLocaleString()}
           </p>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <p className="text-xs text-gray-500 mb-1">24h Change</p>
-          <p className={`text-xl font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5">
+          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">24h Change</p>
+          <p className={`num text-2xl font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
             {isPositive ? '+' : ''}{priceChange.toFixed(2)}%
           </p>
         </div>
-        <div className="bg-white rounded-lg border p-4 col-span-2">
-          <p className="text-xs text-gray-500 mb-1">Market Cap</p>
-          <p className="text-xl font-semibold">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5 col-span-2">
+          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Market Cap</p>
+          <p className="num text-2xl font-bold text-white">
             ${coin.market_data.market_cap.usd.toLocaleString()}
           </p>
         </div>
       </div>
 
-      {coin.description.en ? (
-        <div className="bg-white rounded-lg border p-4">
-          <h2 className="font-semibold mb-2">About {coin.name}</h2>
-          <p className="text-sm text-gray-600 leading-relaxed line-clamp-6">
-            {coin.description.en.replace(HTML_TAG_REGEX, '')}
+      {/* Description */}
+      {description ? (
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-6 fade-up delay-3">
+          <h2 className="font-bold text-white mb-3">About {coin.name}</h2>
+          <p className="text-sm text-gray-400 leading-relaxed line-clamp-6">
+            {description}
           </p>
         </div>
       ) : null}
 
-      <p className="text-xs text-gray-400 mt-4">
-        Rendered with SSG (force-cache) — data fetched at build time
+      <p className="num text-xs text-gray-700 mt-5">
+        ⚡ SSG — 在建置時預先渲染
       </p>
     </div>
   );

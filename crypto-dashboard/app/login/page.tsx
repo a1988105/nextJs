@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -30,44 +31,82 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-950">
-      <div className="bg-gray-900 p-8 rounded-xl w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-white mb-6">登入</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label className="block text-gray-400 text-sm mb-1" htmlFor="username">
-              帳號
-            </label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              required
-              className="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+    <div className="flex items-center justify-center px-4 py-20 relative">
+      {/* Ambient glow behind card */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-amber-400/5 blur-3xl pointer-events-none" />
+
+      <div className="relative w-full max-w-sm fade-up delay-1">
+        {/* Logo mark */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-amber-400 mb-5">
+            <span className="text-black font-black text-xl">C</span>
           </div>
-          <div>
-            <label className="block text-gray-400 text-sm mb-1" htmlFor="password">
-              密碼
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              className="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          {error && <p className="text-red-400 text-sm">{error}</p>}
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-2 rounded-lg transition"
+          <h1 className="text-2xl font-black text-white tracking-tight">歡迎回來</h1>
+          <p className="text-gray-500 text-sm mt-1">登入您的 Crypto 儀表板</p>
+        </div>
+
+        {/* Card */}
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-md p-7">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div>
+              <label
+                className="block text-xs text-gray-500 font-medium uppercase tracking-wider mb-1.5"
+                htmlFor="username"
+              >
+                帳號
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder="輸入帳號"
+                className="w-full bg-white/[0.06] border border-white/[0.08] text-white rounded-lg px-4 py-2.5 text-sm placeholder-gray-600 focus:outline-none focus:border-amber-400/60 focus:bg-white/[0.08] transition-all duration-150"
+              />
+            </div>
+
+            <div>
+              <label
+                className="block text-xs text-gray-500 font-medium uppercase tracking-wider mb-1.5"
+                htmlFor="password"
+              >
+                密碼
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="輸入密碼"
+                className="w-full bg-white/[0.06] border border-white/[0.08] text-white rounded-lg px-4 py-2.5 text-sm placeholder-gray-600 focus:outline-none focus:border-amber-400/60 focus:bg-white/[0.08] transition-all duration-150"
+              />
+            </div>
+
+            {error && (
+              <div className="text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-amber-400 hover:bg-amber-300 disabled:opacity-40 text-black font-bold py-2.5 rounded-lg transition-all duration-150 text-sm tracking-wide"
+            >
+              {loading ? '登入中…' : '登入'}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-xs text-gray-600 mt-5">
+          <Link
+            href="/market/news"
+            className="hover:text-amber-400 transition-colors duration-150"
           >
-            {loading ? '登入中...' : '登入'}
-          </button>
-        </form>
+            ← 返回市場總覽
+          </Link>
+        </p>
       </div>
-    </main>
+    </div>
   )
 }
