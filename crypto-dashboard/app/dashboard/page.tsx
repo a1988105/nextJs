@@ -2,31 +2,22 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import { signOut } from '@/auth'
 
-interface Holding {
-  coin: string
-  amount: number
-  value: number
-}
-
-interface BalanceData {
-  balance: number
-  holdings: Holding[]
-}
-
-async function getBalance(): Promise<BalanceData> {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL ?? 'http://localhost:3000'}/api/user/balance`,
-    { cache: 'no-store' }
-  )
-  if (!res.ok) return { balance: 0, holdings: [] }
-  return res.json()
+// 模擬從 DB 讀取持倉資料（直接在 Server Component 執行，不繞 HTTP）
+function getUserBalance() {
+  return {
+    balance: 10000,
+    holdings: [
+      { coin: 'bitcoin', amount: 0.5, value: 45000 },
+      { coin: 'ethereum', amount: 3.2, value: 9600 },
+    ],
+  }
 }
 
 export default async function DashboardPage() {
   const session = await auth()
   if (!session) redirect('/login')
 
-  const data = await getBalance()
+  const data = getUserBalance()
 
   return (
     <main className="min-h-screen bg-gray-950 text-white p-8">
