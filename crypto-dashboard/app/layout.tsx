@@ -57,6 +57,12 @@ async function Navbar() {
       >
         Dashboard
       </Link>
+      <Link
+        href="/trade"
+        className="text-sm text-gray-400 hover:text-white px-3 py-1.5 rounded-md hover:bg-white/[0.07] transition-all duration-150"
+      >
+        Trade
+      </Link>
 
       {/* Auth CTA */}
       <div className="ml-auto">

@@ -179,8 +179,8 @@ export async function GET(
 ---
 
 ## 完成條件
-- [ ] 三個 Store 建立完成，TypeScript 型別正確
-- [ ] `useTradeStore.fetchPrice` 可透過 axios 取得幣價
-- [ ] `/trade` 頁面輸入金額後自動計算預計數量
+- [x] 三個 Store 建立完成，TypeScript 型別正確
+- [x] `useTradeStore.fetchPrice` 可透過 axios 取得幣價
+- [x] `/trade` 頁面輸入金額後自動計算預計數量
 - [ ] Server → Client 橋接架構理解並實作
-- [ ] `/api/price/[coinId]` Route 正常回傳幣價
+- [x] `/api/price/[coinId]` Route 正常回傳幣價
