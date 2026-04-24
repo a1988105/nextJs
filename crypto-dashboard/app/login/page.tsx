@@ -27,6 +27,7 @@ export default function LoginPage() {
       setError('帳號或密碼錯誤')
     } else {
       router.push('/dashboard')
+      router.refresh()
     }
   }
 
