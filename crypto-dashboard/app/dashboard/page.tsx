@@ -1,34 +1,20 @@
 import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
 import { signOut } from '@/auth'
-
-function getUserBalance() {
-  return {
-    balance: 10000,
-    holdings: [
-      { coin: 'bitcoin', amount: 0.5, value: 45000 },
-      { coin: 'ethereum', amount: 3.2, value: 9600 },
-    ],
-  }
-}
-
-const COIN_SYMBOLS: Record<string, string> = {
-  bitcoin: '₿',
-  ethereum: 'Ξ',
-  solana: '◎',
-}
+import { redirect } from 'next/navigation'
+import { PageReveal } from '@/components/PageReveal'
+import { COIN_SYMBOLS, getPortfolioTotal, getUserBalance } from '@/lib/dashboard'
 
 export default async function DashboardPage() {
   const session = await auth()
   if (!session) redirect('/login')
 
   const data = getUserBalance()
-  const totalValue = data.balance + data.holdings.reduce((sum, h) => sum + h.value, 0)
+  const totalValue = getPortfolioTotal(data)
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
       {/* Header */}
-      <div className="flex items-start justify-between mb-10 fade-up delay-1">
+      <PageReveal delay={1} className="flex items-start justify-between mb-10">
         <div>
           <p className="text-xs text-gray-600 uppercase tracking-widest font-medium mb-1">
             個人儀表板
@@ -50,10 +36,13 @@ export default async function DashboardPage() {
             登出
           </button>
         </form>
-      </div>
+      </PageReveal>
 
       {/* Balance card */}
-      <div className="rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-400/8 via-amber-400/4 to-transparent p-8 mb-5 fade-up delay-2">
+      <PageReveal
+        delay={2}
+        className="rounded-2xl border border-amber-400/15 bg-gradient-to-br from-amber-400/8 via-amber-400/4 to-transparent p-8 mb-5"
+      >
         <p className="text-xs text-amber-400/60 uppercase tracking-widest font-medium mb-3">
           帳戶餘額 (USD)
         </p>
@@ -66,10 +55,13 @@ export default async function DashboardPage() {
             含持倉總值&nbsp;&nbsp;${totalValue.toLocaleString()}
           </p>
         </div>
-      </div>
+      </PageReveal>
 
       {/* Holdings */}
-      <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 fade-up delay-3">
+      <PageReveal
+        delay={3}
+        className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6"
+      >
         <h2 className="text-xs text-gray-500 uppercase tracking-widest font-medium mb-5">
           持倉
         </h2>
@@ -100,7 +92,7 @@ export default async function DashboardPage() {
             )
           })}
         </div>
-      </div>
+      </PageReveal>
     </div>
   )
 }

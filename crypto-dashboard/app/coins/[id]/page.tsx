@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { PageReveal } from '@/components/PageReveal';
 
 const HTML_TAG_REGEX = /<[^>]*>/g;
 
@@ -71,15 +72,17 @@ export default async function CoinPage({ params }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
       {/* Back */}
-      <Link
-        href="/market/news"
-        className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-amber-400 transition-colors duration-150 mb-9 fade-up delay-1"
-      >
-        ← Market Overview
-      </Link>
+      <PageReveal delay={1} className="mb-9">
+        <Link
+          href="/market/news"
+          className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-amber-400 transition-colors duration-150"
+        >
+          ← Market Overview
+        </Link>
+      </PageReveal>
 
       {/* Hero */}
-      <div className="flex items-center gap-5 mb-10 fade-up delay-1">
+      <PageReveal delay={1} className="flex items-center gap-5 mb-10">
         <div className="relative flex-shrink-0">
           <div className="absolute inset-0 rounded-full bg-amber-400/20 blur-2xl scale-150 pointer-events-none" />
           <Image
@@ -100,10 +103,10 @@ export default async function CoinPage({ params }: Props) {
             {coin.symbol}
           </span>
         </div>
-      </div>
+      </PageReveal>
 
       {/* Metrics grid */}
-      <div className="grid grid-cols-2 gap-4 mb-5 fade-up delay-2">
+      <PageReveal delay={2} className="grid grid-cols-2 gap-4 mb-5">
         <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5">
           <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Current Price</p>
           <p className="num text-2xl font-bold text-white">
@@ -122,16 +125,16 @@ export default async function CoinPage({ params }: Props) {
             ${coin.market_data.market_cap.usd.toLocaleString()}
           </p>
         </div>
-      </div>
+      </PageReveal>
 
       {/* Description */}
       {description ? (
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-6 fade-up delay-3">
+        <PageReveal delay={3} className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-6">
           <h2 className="font-bold text-white mb-3">About {coin.name}</h2>
           <p className="text-sm text-gray-400 leading-relaxed line-clamp-6">
             {description}
           </p>
-        </div>
+        </PageReveal>
       ) : null}
 
       <p className="num text-xs text-gray-700 mt-5">

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PageReveal } from '@/components/PageReveal';
 
 export const metadata: Metadata = {
   title: 'Market Overview | Crypto Dashboard',
@@ -38,7 +39,7 @@ export default async function MarketNewsPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-12">
       {/* Header */}
-      <div className="mb-8 fade-up delay-1">
+      <PageReveal delay={1} className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-3xl font-black text-white tracking-tight">Market Overview</h1>
           <span className="num text-xs text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-full">
@@ -48,18 +49,24 @@ export default async function MarketNewsPage() {
         <p className="text-sm text-gray-500">
           Top 10 cryptocurrencies by market capitalization
         </p>
-      </div>
+      </PageReveal>
 
       {coins.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-24 text-center rounded-xl border border-white/[0.07] bg-white/[0.02] fade-up delay-2">
+        <PageReveal
+          delay={2}
+          className="flex flex-col items-center justify-center py-24 text-center rounded-xl border border-white/[0.07] bg-white/[0.02]"
+        >
           <p className="text-2xl mb-3">⚠</p>
           <p className="text-gray-400 text-sm">Market data temporarily unavailable</p>
           <p className="text-gray-600 text-xs mt-1">Please try again shortly</p>
-        </div>
+        </PageReveal>
       )}
 
       {coins.length > 0 && (
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] overflow-hidden fade-up delay-2">
+        <PageReveal
+          delay={2}
+          className="rounded-xl border border-white/[0.07] bg-white/[0.02] overflow-hidden"
+        >
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/[0.07]">
@@ -135,7 +142,7 @@ export default async function MarketNewsPage() {
               })}
             </tbody>
           </table>
-        </div>
+        </PageReveal>
       )}
 
       <p className="num text-xs text-gray-700 mt-5">
