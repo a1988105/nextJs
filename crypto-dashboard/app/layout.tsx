@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { auth, signOut } from "@/auth";
+import { signOut } from "@/auth";
+import { getSession } from "@/lib/session";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 async function Navbar() {
-  const session = await auth();
+  const session = await getSession();
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-black/50 backdrop-blur-xl px-6 py-3.5 flex items-center gap-2">

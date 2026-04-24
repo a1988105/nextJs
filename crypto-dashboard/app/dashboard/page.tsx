@@ -1,11 +1,11 @@
-import { auth } from '@/auth'
 import { signOut } from '@/auth'
+import { getSession } from '@/lib/session'
 import { redirect } from 'next/navigation'
 import { PageReveal } from '@/components/PageReveal'
 import { COIN_SYMBOLS, getPortfolioTotal, getUserBalance } from '@/lib/dashboard'
 
 export default async function DashboardPage() {
-  const session = await auth()
+  const session = await getSession()
   if (!session) redirect('/login')
 
   const data = getUserBalance()
