@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { auth, signOut } from "@/auth";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -21,7 +22,9 @@ export const metadata: Metadata = {
   description: "Real-time cryptocurrency market data and analytics",
 };
 
-function Navbar() {
+async function Navbar() {
+  const session = await auth();
+
   return (
     <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-black/50 backdrop-blur-xl px-6 py-3.5 flex items-center gap-2">
       {/* Brand */}
@@ -54,20 +57,36 @@ function Navbar() {
         Dashboard
       </Link>
 
-      {/* Sign-in CTA */}
+      {/* Auth CTA */}
       <div className="ml-auto">
-        <Link
-          href="/login"
-          className="text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-black px-4 py-1.5 rounded-md transition-colors duration-150"
-        >
-          Sign In
-        </Link>
+        {session ? (
+          <form
+            action={async () => {
+              "use server";
+              await signOut({ redirectTo: "/" });
+            }}
+          >
+            <button
+              type="submit"
+              className="text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-black px-4 py-1.5 rounded-md transition-colors duration-150"
+            >
+              Logout
+            </button>
+          </form>
+        ) : (
+          <Link
+            href="/login"
+            className="text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-black px-4 py-1.5 rounded-md transition-colors duration-150"
+          >
+            Sign In
+          </Link>
+        )}
       </div>
     </nav>
   );
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

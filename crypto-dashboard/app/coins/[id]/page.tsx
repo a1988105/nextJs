@@ -39,13 +39,14 @@ const getCoin = cache(async function getCoin(id: string): Promise<CoinDetail | n
   }
 });
 
+// 先預先建立hotpath，讓Next.js知道有哪些動態路由需要預先渲染
 export async function generateStaticParams() {
   return COINS.map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  if (!COINS.includes(id)) return { title: 'Not Found' };
+
   const coin = await getCoin(id);
   if (!coin) return { title: 'Not Found' };
 
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CoinPage({ params }: Props) {
   const { id } = await params;
-  if (!COINS.includes(id)) notFound();
+
   const coin = await getCoin(id);
 
   if (!coin) notFound();
