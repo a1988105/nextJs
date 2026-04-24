@@ -9,7 +9,7 @@
 | 階段 | 狀態 | 完成日期 |
 |------|------|---------|
 | Phase 1：基礎建設 + SSG + ISR | ✅ 完成 | 2026-04-22 |
-| Phase 2：SSR + 身份驗證 + Server Actions | ⬜ 未開始 | - |
+| Phase 2：SSR + 身份驗證 + Server Actions | ✅ 完成 | 2026-04-24 |
 | Phase 3：Zustand Small Stores | ⬜ 未開始 | - |
 | Phase 4：持久化與 Hydration | ⬜ 未開始 | - |
 | Phase 5：效能優化與部署 | ⬜ 未開始 | - |
@@ -29,13 +29,13 @@
 
 ## Phase 2 細項
 
-- [ ] 2.1 Prisma Schema 建立 User 資料表 + migrate
-- [ ] 2.1 NextAuth Credentials Provider 設定
-- [ ] 2.1 `/login` 自訂登入頁
-- [ ] 2.1 `middleware.ts` 路由守衛
-- [ ] 2.2 `/dashboard` SSR 頁面
-- [ ] 2.2 `/api/user/balance` API Route
-- [ ] 2.3 `app/actions/trade.ts` Server Action
+- [x] 2.1 Prisma Schema 建立 User 資料表 + migrate
+- [x] 2.1 NextAuth Credentials Provider 設定
+- [x] 2.1 `/login` 自訂登入頁
+- [x] 2.1 `proxy.ts` 路由守衛（Next.js 16 改名為 proxy）
+- [x] 2.2 `/dashboard` SSR 頁面
+- [x] 2.2 `/api/user/balance` API Route
+- [x] 2.3 `app/actions/trade.ts` Server Action
 
 ## Phase 3 細項
 
@@ -65,9 +65,9 @@
 ## 下次繼續的位置
 
 <!-- 每次停下來時更新這裡 -->
-**最後更新：** 2026-04-22
-**停在：** Phase 1 完成
-**下一步：** Phase 2 — Prisma Schema + NextAuth + SSR Dashboard
+**最後更新：** 2026-04-24
+**停在：** Phase 2 完成
+**下一步：** Phase 3 — Zustand Small Stores
 
 ---
 
