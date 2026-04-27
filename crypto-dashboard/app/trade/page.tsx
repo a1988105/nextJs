@@ -11,16 +11,19 @@ const COINS = [
 ]
 
 export default function TradePage() {
-  const {
-    selectedCoin,
-    currentPrice,
-    buyAmount,
-    estimatedQty,
-    isLoadingPrice,
-    setSelectedCoin,
-    setBuyAmount,
-    fetchPrice,
-  } = useTradeStore()
+  const selectedCoin = useTradeStore((state) => state.selectedCoin)
+  const currentPrice = useTradeStore((state) => state.currentPrice)
+  const buyAmount = useTradeStore((state) => state.buyAmount)
+  const isLoadingPrice = useTradeStore((state) => state.isLoadingPrice)
+  const setSelectedCoin = useTradeStore((state) => state.setSelectedCoin)
+  const setBuyAmount = useTradeStore((state) => state.setBuyAmount)
+  const fetchPrice = useTradeStore((state) => state.fetchPrice)
+  const estimatedQty = useTradeStore((state) => {
+    if (state.currentPrice === null) return 0
+
+    const amount = Number(state.buyAmount)
+    return amount > 0 ? amount / state.currentPrice : 0
+  })
 
   useEffect(() => {
     fetchPrice(selectedCoin)

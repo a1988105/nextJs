@@ -5,7 +5,6 @@ interface TradeState {
   selectedCoin: string
   currentPrice: number | null
   buyAmount: string
-  estimatedQty: number
   isLoadingPrice: boolean
   priceError: string | null
   setSelectedCoin: (coin: string) => void
@@ -13,21 +12,16 @@ interface TradeState {
   fetchPrice: (coinId: string) => Promise<void>
 }
 
-export const useTradeStore = create<TradeState>((set, get) => ({
+export const useTradeStore = create<TradeState>((set) => ({
   selectedCoin: 'bitcoin',
   currentPrice: null,
   buyAmount: '',
-  estimatedQty: 0,
   isLoadingPrice: false,
   priceError: null,
 
   setSelectedCoin: (coin) => set({ selectedCoin: coin }),
 
-  setBuyAmount: (amount) => {
-    const price = get().currentPrice
-    const qty = price && Number(amount) > 0 ? Number(amount) / price : 0
-    set({ buyAmount: amount, estimatedQty: qty })
-  },
+  setBuyAmount: (amount) => set({ buyAmount: amount }),
 
   fetchPrice: async (coinId) => {
     set({ isLoadingPrice: true, priceError: null })
@@ -36,8 +30,6 @@ export const useTradeStore = create<TradeState>((set, get) => ({
       set({ isLoadingPrice: false, priceError: 'Failed to fetch price' })
       return
     }
-    const amount = get().buyAmount
-    const qty = Number(amount) > 0 ? Number(amount) / price : 0
-    set({ currentPrice: price, estimatedQty: qty, isLoadingPrice: false })
+    set({ currentPrice: price, isLoadingPrice: false })
   },
 }))
