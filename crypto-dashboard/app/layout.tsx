@@ -29,9 +29,10 @@ export default async function RootLayout({
   return (
     <html
       lang="zh-TW"
+      data-theme="dark"
       className={`${outfit.variable} ${jetbrainsMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-[#0B0B0E] text-[#EFEFEF] antialiased">
+      <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)] antialiased">
         <Providers>
           <Navbar />
           <main className="flex-1 relative z-10">{children}</main>

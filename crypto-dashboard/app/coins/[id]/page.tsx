@@ -43,7 +43,7 @@ export default async function CoinPage({ params }: Props) {
       <PageReveal delay={1} className="mb-9">
         <Link
           href="/market/news"
-          className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-amber-400 transition-colors duration-150"
+          className="inline-flex items-center gap-1.5 text-xs text-[var(--muted)] hover:text-amber-400 transition-colors duration-150"
         >
           ← Market Overview
         </Link>
@@ -63,46 +63,46 @@ export default async function CoinPage({ params }: Props) {
           />
         </div>
         <div>
-          <h1 className="text-4xl font-black text-white tracking-tight leading-none">
+          <h1 className="text-4xl font-black text-[var(--text)] tracking-tight leading-none">
             {coin.name}
           </h1>
-          <span className="num text-gray-500 uppercase text-sm tracking-widest mt-1 block">
+          <span className="num text-[var(--muted)] uppercase text-sm tracking-widest mt-1 block">
             {coin.symbol}
           </span>
         </div>
       </PageReveal>
 
       <PageReveal delay={2} className="grid grid-cols-2 gap-4 mb-5">
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5">
-          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Current Price</p>
-          <p className="num text-2xl font-bold text-white">
+        <div className="themed-card rounded-xl border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card-hover)] hover:border-[var(--border-strong)] transition-all duration-150 p-5">
+          <p className="text-xs text-[var(--muted)] uppercase tracking-wider mb-2">Current Price</p>
+          <p className="num text-2xl font-bold text-[var(--text)]">
             ${coin.market_data.current_price.usd.toLocaleString()}
           </p>
         </div>
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5">
-          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">24h Change</p>
-          <p className={`num text-2xl font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+        <div className="themed-card rounded-xl border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card-hover)] hover:border-[var(--border-strong)] transition-all duration-150 p-5">
+          <p className="text-xs text-[var(--muted)] uppercase tracking-wider mb-2">24h Change</p>
+          <p className={`num text-2xl font-bold ${isPositive ? 'text-[var(--green)]' : 'text-[var(--red)]'}`}>
             {isPositive ? '+' : ''}{priceChange.toFixed(2)}%
           </p>
         </div>
         <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-150 p-5 col-span-2">
-          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Market Cap</p>
-          <p className="num text-2xl font-bold text-white">
+          <p className="text-xs text-[var(--muted)] uppercase tracking-wider mb-2">Market Cap</p>
+          <p className="num text-2xl font-bold text-[var(--text)]">
             ${coin.market_data.market_cap.usd.toLocaleString()}
           </p>
         </div>
       </PageReveal>
 
       {description ? (
-        <PageReveal delay={3} className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-6">
-          <h2 className="font-bold text-white mb-3">About {coin.name}</h2>
-          <p className="text-sm text-gray-400 leading-relaxed line-clamp-6">
+        <PageReveal delay={3} className="themed-card rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
+          <h2 className="font-bold text-[var(--text)] mb-3">About {coin.name}</h2>
+          <p className="text-sm text-[var(--muted)] leading-relaxed line-clamp-6">
             {description}
           </p>
         </PageReveal>
       ) : null}
 
-      <p className="num text-xs text-gray-700 mt-5">
+      <p className="num text-xs text-[var(--muted)] mt-5">
         ⚡ SSG — 在建置時預先渲染
       </p>
     </div>

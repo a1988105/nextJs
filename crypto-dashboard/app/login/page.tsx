@@ -14,13 +14,13 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-amber-400 mb-5">
             <span className="text-black font-black text-xl">C</span>
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">歡迎回來</h1>
-          <p className="text-gray-500 text-sm mt-1">登入您的 Crypto 儀表板</p>
+          <h1 className="text-2xl font-black text-[var(--text)] tracking-tight">歡迎回來</h1>
+          <p className="text-[var(--muted)] text-sm mt-1">登入您的 Crypto 儀表板</p>
         </div>
 
         <LoginForm />
 
-        <p className="text-center text-xs text-gray-600 mt-5">
+        <p className="text-center text-xs text-[var(--muted)] mt-5">
           <Link
             href="/market/news"
             className="hover:text-amber-400 transition-colors duration-150"

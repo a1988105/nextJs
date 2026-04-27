@@ -41,7 +41,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className="w-8 h-8 rounded-md flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/[0.07] transition-all duration-150"
+      className="w-8 h-8 rounded-md flex items-center justify-center text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--card-hover)] transition-all duration-150"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? <SunIcon /> : <MoonIcon />}

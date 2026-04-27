@@ -40,10 +40,10 @@ export default function Home() {
         <h1 className="text-[clamp(3rem,8vw,5.5rem)] font-black tracking-tight leading-none mb-6">
           <span className="gradient-text">Crypto</span>
           <br />
-          <span className="text-white/90">Dashboard</span>
+          <span className="text-[var(--text)]">Dashboard</span>
         </h1>
 
-        <p className="text-gray-400 text-lg max-w-lg leading-relaxed">
+        <p className="text-[var(--muted)] text-lg max-w-lg leading-relaxed">
           Exploring SSG, ISR, and SSR rendering strategies with real crypto data,
           authentication, and server actions.
         </p>
@@ -55,7 +55,7 @@ export default function Home() {
           <PageReveal key={f.href} delay={(i + 2) as 2 | 3 | 4}>
             <Link
               href={f.href}
-              className="group block rounded-xl border border-white/[0.07] bg-white/[0.03] p-5 hover:bg-white/[0.06] hover:border-white/[0.14] transition-all duration-200"
+              className="group themed-card block rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 hover:bg-[var(--card-hover)] hover:border-[var(--border-strong)] transition-all duration-200"
             >
               <div className="flex items-center justify-between mb-5">
                 <span
@@ -64,12 +64,12 @@ export default function Home() {
                 >
                   {f.tag}
                 </span>
-                <span className="text-gray-700 group-hover:text-gray-400 group-hover:translate-x-0.5 transition-all duration-150">
+                <span className="text-[var(--muted)] group-hover:text-[var(--text)] group-hover:translate-x-0.5 transition-all duration-150">
                   →
                 </span>
               </div>
-              <h2 className="font-bold text-white text-lg mb-2">{f.label}</h2>
-              <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
+              <h2 className="font-bold text-[var(--text)] text-lg mb-2">{f.label}</h2>
+              <p className="text-sm text-[var(--muted)] leading-relaxed">{f.desc}</p>
             </Link>
           </PageReveal>
         ))}
@@ -77,12 +77,12 @@ export default function Home() {
 
       {/* Coin quick-links */}
       <PageReveal delay={5} className="flex items-center gap-3">
-        <span className="text-xs text-gray-700">Pre-rendered coins:</span>
+        <span className="text-xs text-[var(--muted)]">Pre-rendered coins:</span>
         {['bitcoin', 'ethereum', 'solana'].map((id) => (
           <Link
             key={id}
             href={`/coins/${id}`}
-            className="text-xs text-gray-500 hover:text-amber-400 capitalize transition-colors duration-150 border border-white/[0.07] hover:border-amber-400/30 px-2.5 py-1 rounded-md"
+            className="text-xs text-[var(--muted)] hover:text-amber-400 capitalize transition-colors duration-150 border border-[var(--border)] hover:border-amber-400/30 px-2.5 py-1 rounded-md"
           >
             {id}
           </Link>
