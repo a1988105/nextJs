@@ -1,3 +1,5 @@
+import { cache } from 'react'
+
 export type Holding = {
   coin: string
   amount: number
@@ -15,7 +17,7 @@ export const COIN_SYMBOLS: Record<string, string> = {
   solana: '◎',
 }
 
-export function getUserBalance(): UserBalance {
+export const getUserBalance = cache(function getUserBalance(): UserBalance {
   return {
     balance: 10000,
     holdings: [
@@ -23,7 +25,7 @@ export function getUserBalance(): UserBalance {
       { coin: 'ethereum', amount: 3.2, value: 9600 },
     ],
   }
-}
+})
 
 export function getPortfolioTotal({ balance, holdings }: UserBalance) {
   return balance + holdings.reduce((sum, holding) => sum + holding.value, 0)
