@@ -21,6 +21,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Do NOT use `any`
 - Prefer functional, composable patterns
 
+
 ## Architecture
 - Components: UI only
 - Hooks: contain logic
@@ -40,6 +41,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Max function length: 50 lines
 - Prefer small reusable functions
 - Avoid deep nesting (>3 levels)
+- No magic numbers or magic strings
 
 ## React / Next.js
 - Prefer Server Components by default

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Root Cause Bugfix"
+  short_description: "Debug defects by reproducing, tracing root cause, fixing narrowly, and verifying with focused tests."
+  default_prompt: "Use $bugfix-root-cause to investigate and fix this bug from reproduction through verification."
