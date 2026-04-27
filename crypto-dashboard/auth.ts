@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
+import { CredentialsSchema } from '@/schemas/auth'
 
 const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET
 
@@ -20,17 +21,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) return null
+        const parsed = CredentialsSchema.safeParse(credentials)
+        if (!parsed.success) return null
 
-        const user = await prisma.user.findUnique({
-          where: { username: credentials.username as string },
-        })
+        const { username, password } = parsed.data
+        const user = await prisma.user.findUnique({ where: { username } })
         if (!user) return null
 
-        const isValid = await bcrypt.compare(
-          credentials.password as string,
-          user.password
-        )
+        const isValid = await bcrypt.compare(password, user.password)
         if (!isValid) return null
 
         return { id: String(user.id), name: user.username }
