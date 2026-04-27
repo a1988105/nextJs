@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import { useUIStore } from '@/store/useUIStore'
-import { useHasHydrated } from '@/hooks/useHasHydrated'
 
 function SunIcon() {
   return (
@@ -22,27 +21,20 @@ function MoonIcon() {
 }
 
 export function ThemeToggle() {
-  const hasHydrated = useHasHydrated()
   const theme = useUIStore((s) => s.theme)
   const setTheme = useUIStore((s) => s.setTheme)
 
-  // Apply persisted theme to document after localStorage is read
+  // Keep the document theme in sync after store hydration and toggles
   useEffect(() => {
-    if (hasHydrated) {
-      document.documentElement.dataset.theme = theme
-    }
-  }, [hasHydrated, theme])
-
-  // Prevent hydration mismatch: render placeholder until localStorage is read
-  if (!hasHydrated) {
-    return <div className="w-8 h-8" />
-  }
+    document.documentElement.dataset.theme = theme
+  }, [theme])
 
   return (
     <button
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       className="w-8 h-8 rounded-md flex items-center justify-center text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--card-hover)] transition-all duration-150"
       aria-label="Toggle theme"
+      suppressHydrationWarning
     >
       {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
     </button>

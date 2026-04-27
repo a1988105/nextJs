@@ -21,6 +21,17 @@ export const metadata: Metadata = {
   description: "Real-time cryptocurrency market data and analytics",
 };
 
+const themeInitScript = `
+  try {
+    const raw = localStorage.getItem('ui-store');
+    const parsed = raw ? JSON.parse(raw) : null;
+    const theme = parsed?.state?.theme === 'light' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = theme;
+  } catch {
+    document.documentElement.dataset.theme = 'dark';
+  }
+`;
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -31,8 +42,10 @@ export default async function RootLayout({
       lang="zh-TW"
       data-theme="dark"
       className={`${outfit.variable} ${jetbrainsMono.variable} h-full`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text)] antialiased">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <Providers>
           <Navbar />
           <main className="flex-1 relative z-10">{children}</main>
