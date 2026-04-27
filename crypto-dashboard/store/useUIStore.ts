@@ -27,9 +27,11 @@ export const useUIStore = create < UIState > ()(
         // Persist only the theme to localStorage 指定屬性持久化到 localStorage
         {
             name: 'ui-store',
+            /* 可以這樣寫指定只存什麼
             partialize: (state) => ({
                 theme: state.theme,
             }),
+            */
         }
     )
 )
