@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { signOut } from '@/auth'
 import { getSession } from '@/lib/session'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export async function Navbar() {
   const session = await getSession()
@@ -41,21 +42,27 @@ export async function Navbar() {
         Trade
       </Link>
 
-      <div className="ml-auto">
+      <div className="ml-auto flex items-center gap-3">
+        <ThemeToggle />
         {session ? (
-          <form
-            action={async () => {
-              'use server'
-              await signOut({ redirectTo: '/' })
-            }}
-          >
-            <button
-              type="submit"
-              className="text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-black px-4 py-1.5 rounded-md transition-colors duration-150"
+          <>
+            <span className="text-sm text-gray-400">
+              {session.user?.name}
+            </span>
+            <form
+              action={async () => {
+                'use server'
+                await signOut({ redirectTo: '/' })
+              }}
             >
-              Logout
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-black px-4 py-1.5 rounded-md transition-colors duration-150"
+              >
+                Logout
+              </button>
+            </form>
+          </>
         ) : (
           <Link
             href="/login"

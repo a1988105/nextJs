@@ -10,8 +10,8 @@
 |------|------|---------|
 | Phase 1：基礎建設 + SSG + ISR | ✅ 完成 | 2026-04-22 |
 | Phase 2：SSR + 身份驗證 + Server Actions | ✅ 完成 | 2026-04-24 |
-| Phase 3：Zustand Small Stores | ⬜ 未開始 | - |
-| Phase 4：持久化與 Hydration | ⬜ 未開始 | - |
+| Phase 3：Zustand Small Stores | ✅ 完成  | 2026-04-24 |
+| Phase 4：持久化與 Hydration | ✅ 完成 | 2026-04-27 |
 | Phase 5：效能優化與部署 | ⬜ 未開始 | - |
 
 > 狀態標示：⬜ 未開始 / 🔄 進行中 / ✅ 完成
@@ -48,10 +48,10 @@
 
 ## Phase 4 細項
 
-- [ ] 4.1 `useUIStore` 加入 persist middleware
-- [ ] 4.2 `useHasHydrated` Hook 建立
-- [ ] 4.2 ThemeToggle 套用 useHasHydrated
-- [ ] 4.3 Navbar 顯示用戶名
+- [x] 4.1 `useUIStore` 加入 persist middleware
+- [x] 4.2 `useHasHydrated` Hook 建立
+- [x] 4.2 ThemeToggle 套用 useHasHydrated
+- [x] 4.3 Navbar 顯示用戶名
 
 ## Phase 5 細項
 
@@ -65,9 +65,9 @@
 ## 下次繼續的位置
 
 <!-- 每次停下來時更新這裡 -->
-**最後更新：** 2026-04-24
-**停在：** Phase 2 完成
-**下一步：** Phase 3 — Zustand Small Stores
+**最後更新：** 2026-04-27
+**停在：** Phase 4 完成
+**下一步：** Phase 5 — 效能優化與部署
 
 ---
 
