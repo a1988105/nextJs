@@ -1,6 +1,6 @@
 import { getSession } from '@/lib/session'
 import { redirect } from 'next/navigation'
-import { getUserBalance } from '@/lib/dashboard'
+import { getUserBalance } from '@/services/user'
 import DashboardClient from '@/components/DashboardClient'
 
 // Server Component：只負責 fetch 資料 + 傳 props

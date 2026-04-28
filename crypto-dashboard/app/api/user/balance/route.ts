@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import { getUserBalance } from '@/lib/dashboard'
+import { getUserBalance } from '@/services/user'
 
 export async function GET() {
   const session = await auth()
