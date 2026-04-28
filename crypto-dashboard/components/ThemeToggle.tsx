@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useUIStore } from '@/store/useUIStore'
 
 function SunIcon() {
@@ -23,11 +22,6 @@ function MoonIcon() {
 export function ThemeToggle() {
   const theme = useUIStore((s) => s.theme)
   const setTheme = useUIStore((s) => s.setTheme)
-
-  // Keep the document theme in sync after store hydration and toggles
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme
-  }, [theme])
 
   return (
     <button
