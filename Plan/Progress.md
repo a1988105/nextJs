@@ -40,12 +40,12 @@
 
 ## Phase 3 細項
 
-- [ ] 3.1 `useAuthStore.ts` 建立
-- [ ] 3.1 `useUIStore.ts` 建立
-- [ ] 3.1 `useTradeStore.ts` 建立（含 fetchPrice）
-- [ ] 3.2 Server → Client 資料橋接實作
-- [ ] 3.3 `/trade` CSR 頁面 + 計算機邏輯
-- [ ] 3.3 `/api/price/[coinId]` Route
+- [x] 3.1 `useAuthStore.ts` 建立
+- [x] 3.1 `useUIStore.ts` 建立
+- [x] 3.1 `useTradeStore.ts` 建立（含 fetchPrice）
+- [x] 3.2 Server → Client 資料橋接實作
+- [x] 3.3 `/trade` CSR 頁面 + 計算機邏輯
+- [x] 3.3 `/api/price/[coinId]` Route
 
 ## Phase 4 細項
 
@@ -53,6 +53,15 @@
 - [x] 4.2 `useHasHydrated` Hook 建立
 - [x] 4.2 ThemeToggle 套用 useHasHydrated
 - [x] 4.3 Navbar 顯示用戶名
+
+## Phase 4.5 細項
+
+- [x] Prisma schema 加 `Holding`、`Trade` model，`User` 加 `balance` 欄位
+- [x] `placeOrder` Server Action 接 DB：server-side 取即時價、驗餘額、transaction 寫 DB
+- [x] `/trade` 頁面「確認買入」接上 Server Action（loading spinner、inline 通知、成功清空輸入）
+- [x] `getUserBalance` 改為 async，從 DB 讀真實 balance + holdings
+- [x] `/api/user/balance` 改讀真實 DB
+- [x] Dashboard 傳 `session.user.id` 給 `getUserBalance`
 
 ## Phase 5 細項
 
@@ -66,9 +75,9 @@
 ## 下次繼續的位置
 
 <!-- 每次停下來時更新這裡 -->
-**最後更新：** 2026-04-27
-**停在：** Phase 4 完成
-**下一步：** Phase 5 — 效能優化與部署
+**最後更新：** 2026-04-28
+**停在：** Phase 4.5 完成（Trade 下單寫入 DB，Dashboard 讀真實資料）
+**下一步：** Phase 5 — 效能優化與部署，或先做賣出功能 / 交易歷史頁面
 
 ---
 
