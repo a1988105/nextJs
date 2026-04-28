@@ -8,7 +8,8 @@ export default async function DashboardPage() {
   const session = await getSession()
   if (!session) redirect('/login')
 
-  const data = getUserBalance()
+  const userId = Number(session.user?.id)
+  const data = await getUserBalance(userId)
 
   return (
     <DashboardClient

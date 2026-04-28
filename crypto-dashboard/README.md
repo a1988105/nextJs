@@ -17,8 +17,9 @@ Generate a secret with:
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
+2. npx prisma generate
 
-2. Start the development server:
+3. Start the development server:
 
 ```bash
 npm run dev

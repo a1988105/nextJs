@@ -12,6 +12,7 @@
 | Phase 2：SSR + 身份驗證 + Server Actions | ✅ 完成 | 2026-04-24 |
 | Phase 3：Zustand Small Stores | ✅ 完成  | 2026-04-24 |
 | Phase 4：持久化與 Hydration | ✅ 完成 | 2026-04-27 |
+| Phase 4.5：DB 真實持久化（Holding / Trade） | ✅ 完成 | 2026-04-28 |
 | Phase 5：效能優化與部署 | ⬜ 未開始 | - |
 
 > 狀態標示：⬜ 未開始 / 🔄 進行中 / ✅ 完成

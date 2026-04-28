@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { prisma } from '@/lib/prisma'
 
 export type Holding = {
   coin: string
@@ -17,16 +18,22 @@ export const COIN_SYMBOLS: Record<string, string> = {
   solana: '◎',
 }
 
-export const getUserBalance = cache(function getUserBalance(): UserBalance {
+export const getUserBalance = cache(async function getUserBalance(userId: number): Promise<UserBalance> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { holdings: true },
+  })
+
   return {
-    balance: 10000,
-    holdings: [
-      { coin: 'bitcoin', amount: 0.5, value: 45000 },
-      { coin: 'ethereum', amount: 3.2, value: 9600 },
-    ],
+    balance: user?.balance ?? 0,
+    holdings: (user?.holdings ?? []).map((h) => ({
+      coin: h.coin,
+      amount: h.amount,
+      value: h.value,
+    })),
   }
 })
 
 export function getPortfolioTotal({ balance, holdings }: UserBalance) {
-  return balance + holdings.reduce((sum, holding) => sum + holding.value, 0)
+  return balance + holdings.reduce((sum, h) => sum + h.value, 0)
 }
