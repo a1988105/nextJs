@@ -47,3 +47,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Prefer Server Components by default
 - Use Client Components only when necessary
 - Use Suspense where applicable
+
+## Server / Client 邊界（重要）
+- `lib/` 只放純 type 和純函數，Client Component 可以 import
+- 任何 import `prisma` 的函數一律放 `services/`，只能在 Server Component、Server Action、Route Handler 呼叫
+- 違反此規則會導致 `Module not found: Can't resolve 'fs'` 瀏覽器錯誤
+- 新增 DB 邏輯前先確認：這個檔案是否可能被 `'use client'` 的元件 import？是的話就拆開
