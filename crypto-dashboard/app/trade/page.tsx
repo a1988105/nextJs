@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useTradeStore } from '@/store/useTradeStore'
+import { placeOrder } from '@/app/actions/trade'
 
 const COINS = [
   { id: 'bitcoin', label: 'Bitcoin', symbol: 'BTC' },
@@ -9,6 +10,8 @@ const COINS = [
   { id: 'solana', label: 'Solana', symbol: 'SOL' },
   { id: 'binancecoin', label: 'BNB', symbol: 'BNB' },
 ]
+
+type Notification = { type: 'success' | 'error'; message: string }
 
 export default function TradePage() {
   const selectedCoin = useTradeStore((state) => state.selectedCoin)
@@ -20,10 +23,18 @@ export default function TradePage() {
   const fetchPrice = useTradeStore((state) => state.fetchPrice)
   const estimatedQty = useTradeStore((state) => {
     if (state.currentPrice === null) return 0
-
     const amount = Number(state.buyAmount)
     return amount > 0 ? amount / state.currentPrice : 0
   })
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [notification, setNotification] = useState<Notification | null>(null)
+
+  useEffect(() => {
+    if (!notification) return
+    const timer = setTimeout(() => setNotification(null), 4000)
+    return () => clearTimeout(timer)
+  }, [notification])
 
   useEffect(() => {
     fetchPrice(selectedCoin)
@@ -32,6 +43,23 @@ export default function TradePage() {
   const handleCoinChange = (coinId: string) => {
     setSelectedCoin(coinId)
   }
+
+  const handleSubmit = useCallback(async () => {
+    if (!buyAmount || !currentPrice || Number(buyAmount) <= 0) return
+    setIsSubmitting(true)
+    try {
+      const fd = new FormData()
+      fd.append('coin', selectedCoin)
+      fd.append('amount', buyAmount)
+      const result = await placeOrder(fd)
+      setNotification({ type: result.success ? 'success' : 'error', message: result.message })
+      if (result.success) setBuyAmount('')
+    } catch {
+      setNotification({ type: 'error', message: '下單失敗，請稍後再試' })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }, [buyAmount, currentPrice, selectedCoin, setBuyAmount])
 
   const coin = COINS.find((c) => c.id === selectedCoin)
 
@@ -132,12 +160,30 @@ export default function TradePage() {
           )}
         </div>
 
-        {/* Submit button (UI only — Server Action would handle real submission) */}
+        {/* Notification */}
+        {notification && (
+          <div
+            className={`rounded-xl px-5 py-3.5 text-sm font-medium flex items-center gap-2 ${
+              notification.type === 'success'
+                ? 'bg-emerald-400/10 border border-emerald-400/30 text-emerald-400'
+                : 'bg-red-400/10 border border-red-400/30 text-red-400'
+            }`}
+          >
+            <span>{notification.type === 'success' ? '✓' : '✕'}</span>
+            {notification.message}
+          </div>
+        )}
+
+        {/* Submit button */}
         <button
-          disabled={!buyAmount || !currentPrice || Number(buyAmount) <= 0}
-          className="w-full py-3.5 rounded-xl font-bold text-black bg-amber-400 hover:bg-amber-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+          onClick={handleSubmit}
+          disabled={isSubmitting || !buyAmount || !currentPrice || Number(buyAmount) <= 0}
+          className="w-full py-3.5 rounded-xl font-bold text-black bg-amber-400 hover:bg-amber-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 flex items-center justify-center gap-2"
         >
-          確認買入
+          {isSubmitting && (
+            <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+          )}
+          {isSubmitting ? '下單中...' : '確認買入'}
         </button>
       </div>
 
@@ -148,7 +194,7 @@ export default function TradePage() {
           <li>此頁面為純 CSR（Client Component）</li>
           <li>幣價透過 <code className="text-amber-400/70">/api/price/[coinId]</code> 取得，30 秒快取</li>
           <li>狀態由 <code className="text-amber-400/70">useTradeStore</code> 管理</li>
-          <li>下單送出應交由 Server Action 處理</li>
+          <li>下單透過 <code className="text-amber-400/70">placeOrder</code> Server Action 處理</li>
         </ul>
       </div>
     </div>

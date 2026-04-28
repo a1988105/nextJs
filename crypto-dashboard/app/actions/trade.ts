@@ -2,9 +2,11 @@
 
 import { auth } from '@/auth'
 
-export async function placeOrder(formData: FormData) {
+type OrderResult = { success: boolean; message: string }
+
+export async function placeOrder(formData: FormData): Promise<OrderResult> {
   const session = await auth()
-  if (!session) throw new Error('Unauthorized')
+  if (!session) return { success: false, message: '請先登入' }
 
   const coin = formData.get('coin') as string
   const amount = Number(formData.get('amount'))
