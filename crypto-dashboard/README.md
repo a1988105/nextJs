@@ -12,6 +12,9 @@ cp .env.example .env.local
 Use `AUTH_SECRET` going forward. `NEXTAUTH_SECRET` is also accepted for
 backward compatibility, but only one is required.
 
+For local development, keep `AUTH_URL=http://localhost:3000` so Auth.js trusts
+requests to the local auth routes.
+
 Generate a secret with:
 
 ```bash
@@ -37,6 +40,8 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 - `AUTH_SECRET`: preferred NextAuth secret for signing auth tokens
 - `NEXTAUTH_SECRET`: legacy-compatible fallback name
+- `AUTH_URL`: canonical app URL used by Auth.js to trust auth route requests
+- `DATABASE_URL`: Prisma database connection string
 - `NEXT_PUBLIC_APP_URL`: public app URL used by the frontend
 - `COINGECKO_BASE_URL`: CoinGecko API base URL
 
