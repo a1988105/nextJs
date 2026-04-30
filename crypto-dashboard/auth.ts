@@ -53,7 +53,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: { signIn: '/login' },
-  session: { strategy: 'jwt' },
+  cookies: {
+    sessionToken: {
+      options: {
+        httpOnly: true,
+        sameSite: 'lax' as const,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+  },
+  session: { strategy: 'jwt', maxAge: 8 * 60 * 60 },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
