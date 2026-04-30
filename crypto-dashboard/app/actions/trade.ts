@@ -3,6 +3,13 @@
 import { auth } from '@/auth'
 import { logger } from '@/lib/logger'
 import { prisma } from '@/lib/prisma'
+import {
+  executeBuyOrder,
+  InsufficientBalanceError,
+  InvalidOrderInputError,
+  isSupportedCoin,
+  UnsupportedCoinError,
+} from '@/lib/tradeOrder'
 import { getCoinPrice } from '@/services/coinGecko'
 
 type OrderResult = { success: boolean; message: string }
@@ -14,68 +21,72 @@ export async function placeOrder(formData: FormData): Promise<OrderResult> {
     return { success: false, message: '請先登入' }
   }
 
-  const coin = formData.get('coin') as string
+  const userId = Number(session.user.id)
+  const coin = String(formData.get('coin') ?? '')
   const usdAmount = Number(formData.get('amount'))
 
-  if (!coin || isNaN(usdAmount) || usdAmount <= 0) {
-    logger.warn('trade', 'Rejected order with invalid input', { coin, usdAmount })
+  if (!Number.isInteger(userId) || userId <= 0) {
+    logger.error('trade', 'Rejected order with invalid session user id', {
+      userId: session.user.id,
+    })
+    return { success: false, message: '登入狀態無效，請重新登入' }
+  }
+
+  if (!Number.isFinite(usdAmount) || usdAmount <= 0) {
+    logger.warn('trade', 'Rejected order with invalid amount', { coin, usdAmount })
     return { success: false, message: '請輸入有效金額' }
+  }
+
+  if (!isSupportedCoin(coin)) {
+    logger.warn('trade', 'Rejected order for unsupported coin', { userId, coin, usdAmount })
+    return { success: false, message: '不支援的交易標的' }
   }
 
   const price = await getCoinPrice(coin)
   if (price === null) {
-    logger.error('trade', 'Rejected order because price was unavailable', { coin, usdAmount })
+    logger.error('trade', 'Rejected order because price was unavailable', { userId, coin, usdAmount })
     return { success: false, message: '無法取得即時價格，請稍後再試' }
   }
 
-  const userId = Number(session.user.id)
-  const qty = usdAmount / price
-
-  const user = await prisma.user.findUnique({ where: { id: userId } })
-  if (!user) {
-    logger.error('trade', 'Rejected order because user was not found', { userId, coin, usdAmount })
-    return { success: false, message: '找不到使用者' }
-  }
-
-  if (user.balance < usdAmount) {
-    logger.warn('trade', 'Rejected order because balance was insufficient', {
+  try {
+    const { qty } = await executeBuyOrder(prisma, {
       userId,
       coin,
       usdAmount,
-      balance: user.balance,
+      price,
     })
-    return { success: false, message: `餘額不足，目前餘額 $${user.balance.toLocaleString()}` }
-  }
 
-  try {
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: userId },
-        data: { balance: { decrement: usdAmount } },
-      }),
-      prisma.holding.upsert({
-        where: { userId_coin: { userId, coin } },
-        create: { userId, coin, amount: qty, value: usdAmount },
-        update: { amount: { increment: qty }, value: { increment: usdAmount } },
-      }),
-      prisma.trade.create({
-        data: { userId, coin, usdAmount, price, qty },
-      }),
-    ])
+    return {
+      success: true,
+      message: `成功買入 ${qty.toFixed(6)} ${coin} @ $${price.toLocaleString()}`,
+    }
   } catch (error) {
+    if (error instanceof InsufficientBalanceError) {
+      logger.warn('trade', 'Rejected order because balance was insufficient', {
+        userId,
+        coin,
+        usdAmount,
+      })
+      return { success: false, message: '餘額不足' }
+    }
+
+    if (error instanceof UnsupportedCoinError) {
+      logger.warn('trade', 'Rejected order for unsupported coin', { userId, coin, usdAmount })
+      return { success: false, message: '不支援的交易標的' }
+    }
+
+    if (error instanceof InvalidOrderInputError) {
+      logger.warn('trade', 'Rejected order with invalid input', { userId, coin, usdAmount, price })
+      return { success: false, message: '請輸入有效交易資料' }
+    }
+
     logger.error('trade', 'Order transaction failed', {
       userId,
       coin,
       usdAmount,
       price,
-      qty,
       error,
     })
     return { success: false, message: '下單失敗，請稍後再試' }
-  }
-
-  return {
-    success: true,
-    message: `成功買入 ${qty.toFixed(6)} ${coin} @ $${price.toLocaleString()}`,
   }
 }
