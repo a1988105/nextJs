@@ -41,6 +41,12 @@ export async function Navbar() {
       >
         Trade
       </Link>
+      <Link
+        href="/trade/history"
+        className="text-sm text-[var(--muted)] hover:text-[var(--text)] px-3 py-1.5 rounded-md hover:bg-[var(--card-hover)] transition-all duration-150"
+      >
+        History
+      </Link>
 
       <div className="ml-auto flex items-center gap-3">
         <ThemeToggle />

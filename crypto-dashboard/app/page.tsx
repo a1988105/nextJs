@@ -23,6 +23,20 @@ const features = [
     desc: 'Server-rendered portfolio view protected by NextAuth session-based authentication.',
     color: '#34D399',
   },
+  {
+    href: '/trade',
+    label: 'Trade',
+    tag: 'CSR + Server Action',
+    desc: 'Client-side buy/sell UI backed by authenticated Server Actions with atomic DB transactions.',
+    color: '#F87171',
+  },
+  {
+    href: '/trade/history',
+    label: 'Trade History',
+    tag: 'SSR + Auth',
+    desc: 'Server-rendered trade log fetched fresh on every request, protected by session authentication.',
+    color: '#A78BFA',
+  },
 ];
 
 export default function Home() {
@@ -52,7 +66,7 @@ export default function Home() {
       {/* Feature cards */}
       <div className="grid gap-4 sm:grid-cols-3 mb-8">
         {features.map((f, i) => (
-          <PageReveal key={f.href} delay={(i + 2) as 2 | 3 | 4}>
+          <PageReveal key={f.href} delay={(Math.min(i + 2, 5)) as 2 | 3 | 4 | 5}>
             <Link
               href={f.href}
               className="group themed-card block rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 hover:bg-[var(--card-hover)] hover:border-[var(--border-strong)] transition-all duration-200"

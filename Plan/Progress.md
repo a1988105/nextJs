@@ -13,6 +13,7 @@
 | Phase 3：Zustand Small Stores | ✅ 完成  | 2026-04-24 |
 | Phase 4：持久化與 Hydration | ✅ 完成 | 2026-04-27 |
 | Phase 4.5：DB 真實持久化（Holding / Trade） | ✅ 完成 | 2026-04-28 |
+| Phase 4.8：賣出功能 + 交易記錄頁 | ✅ 完成 | 2026-04-30 |
 | Phase 5：效能優化與部署 | ⬜ 未開始 | - |
 
 > 狀態標示：⬜ 未開始 / 🔄 進行中 / ✅ 完成
@@ -63,6 +64,19 @@
 - [x] `/api/user/balance` 改讀真實 DB
 - [x] Dashboard 傳 `session.user.id` 給 `getUserBalance`
 
+## Phase 4.8 細項
+
+- [x] `lib/tradeOrder.ts` 加入 `executeSellOrder`（transaction：驗持倉 → 減持倉 → 加餘額 → 寫 Trade 紀錄）
+- [x] `InsufficientHoldingError` 新 Error 類別
+- [x] `app/actions/sell.ts` Server Action（`placeSellOrder`）
+- [x] `services/user.ts` 加入 `getUserTrades`（最近 50 筆，倒序）
+- [x] `store/useTradeStore.ts` 加入 `sellCoinAmount` / `setSellCoinAmount`
+- [x] `app/trade/page.tsx` 改為 Server Component（SSR fetch balance + holdings，未登入 redirect）
+- [x] `components/TradeClient.tsx` 統一 Buy/Sell 分頁 UI，成功後呼叫 `router.refresh()` 更新持倉
+- [x] `app/trade/history/page.tsx` 新頁面（SSR + Auth，列出所有交易）
+- [x] Home page 加入 Trade / Trade History feature card
+- [x] Navbar 加入 History 連結
+
 ## Phase 5 細項
 
 - [ ] 5.1 所有元件改用精準 Selector
@@ -75,9 +89,9 @@
 ## 下次繼續的位置
 
 <!-- 每次停下來時更新這裡 -->
-**最後更新：** 2026-04-28
-**停在：** Phase 4.5 完成（Trade 下單寫入 DB，Dashboard 讀真實資料）
-**下一步：** Phase 5 — 效能優化與部署，或先做賣出功能 / 交易歷史頁面
+**最後更新：** 2026-04-30
+**停在：** Phase 4.8 完成（賣出功能、交易記錄頁、router.refresh() 模式）
+**下一步：** Phase 5 — 效能優化與部署（bundle 分析、精準 selector、`npm run build`）
 
 ---
 
