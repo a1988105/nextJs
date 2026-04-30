@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
+import { logger } from '@/lib/logger'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { CredentialsSchema } from '@/schemas/auth'
@@ -22,16 +23,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         const parsed = CredentialsSchema.safeParse(credentials)
-        if (!parsed.success) return null
+        if (!parsed.success) {
+          logger.warn('auth', 'Rejected credentials with invalid shape', {
+            issues: parsed.error.issues,
+          })
+          return null
+        }
 
         const { username, password } = parsed.data
-        const user = await prisma.user.findUnique({ where: { username } })
-        if (!user) return null
+        try {
+          const user = await prisma.user.findUnique({ where: { username } })
+          if (!user) {
+            logger.warn('auth', 'Rejected credentials for missing user')
+            return null
+          }
 
-        const isValid = await bcrypt.compare(password, user.password)
-        if (!isValid) return null
+          const isValid = await bcrypt.compare(password, user.password)
+          if (!isValid) {
+            logger.warn('auth', 'Rejected credentials for password mismatch', { userId: user.id })
+            return null
+          }
 
-        return { id: String(user.id), name: user.username }
+          return { id: String(user.id), name: user.username }
+        } catch (error) {
+          logger.error('auth', 'Credentials authorization failed', { error })
+          throw error
+        }
       },
     }),
   ],
