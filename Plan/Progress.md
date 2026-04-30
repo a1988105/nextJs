@@ -14,7 +14,7 @@
 | Phase 4：持久化與 Hydration | ✅ 完成 | 2026-04-27 |
 | Phase 4.5：DB 真實持久化（Holding / Trade） | ✅ 完成 | 2026-04-28 |
 | Phase 4.8：賣出功能 + 交易記錄頁 | ✅ 完成 | 2026-04-30 |
-| Phase 5：效能優化與部署 | ⬜ 未開始 | - |
+| Phase 5：效能優化與部署 | ✅ 完成 | 2026-04-30 |
 
 > 狀態標示：⬜ 未開始 / 🔄 進行中 / ✅ 完成
 
@@ -79,10 +79,10 @@
 
 ## Phase 5 細項
 
-- [ ] 5.1 所有元件改用精準 Selector
-- [ ] 5.2 Bundle 分析執行
-- [ ] 5.3 `.env.local` 設定完整
-- [ ] 5.3 `npm run build` 成功
+- [x] 5.1 `DashboardClient` 改三個獨立 selector；`TradeClient` 改用 `useShallow`（9 欄位）
+- [x] 5.2 安裝 `@next/bundle-analyzer`，新增 `npm run analyze` script
+- [x] 5.3 `.env.local` 補上 `DATABASE_URL` + `NEXT_PUBLIC_APP_URL`
+- [x] 5.3 `npm run build` 成功（13 頁全部通過）
 
 ---
 
@@ -90,8 +90,8 @@
 
 <!-- 每次停下來時更新這裡 -->
 **最後更新：** 2026-04-30
-**停在：** Phase 4.8 完成（賣出功能、交易記錄頁、router.refresh() 模式）
-**下一步：** Phase 5 — 效能優化與部署（bundle 分析、精準 selector、`npm run build`）
+**停在：** Phase 5 全部完成（精準 selector、bundle analyzer、env 補全、build 成功）
+**下一步：** 所有 Phase 已完成 🎉
 
 ---
 

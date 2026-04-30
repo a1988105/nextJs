@@ -11,7 +11,9 @@ type Props = {
 }
 
 export default function DashboardClient({ username, initialData }: Props) {
-  const { balance, holdings, setDashboardData } = useAuthStore()
+  const balance = useAuthStore((s) => s.balance)
+  const holdings = useAuthStore((s) => s.holdings)
+  const setDashboardData = useAuthStore((s) => s.setDashboardData)
 
   // 橋接：Server 傳來的初始資料 → 寫入 Store
   useEffect(() => {

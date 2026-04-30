@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useShallow } from 'zustand/react/shallow'
 import { useTradeStore } from '@/store/useTradeStore'
 import { placeOrder } from '@/app/actions/trade'
 import { placeSellOrder } from '@/app/actions/sell'
@@ -232,7 +233,17 @@ export default function TradeClient({
   const {
     selectedCoin, currentPrice, buyAmount, sellCoinAmount, isLoadingPrice,
     setSelectedCoin, setBuyAmount, setSellCoinAmount, fetchPrice,
-  } = useTradeStore()
+  } = useTradeStore(useShallow((s) => ({
+    selectedCoin: s.selectedCoin,
+    currentPrice: s.currentPrice,
+    buyAmount: s.buyAmount,
+    sellCoinAmount: s.sellCoinAmount,
+    isLoadingPrice: s.isLoadingPrice,
+    setSelectedCoin: s.setSelectedCoin,
+    setBuyAmount: s.setBuyAmount,
+    setSellCoinAmount: s.setSellCoinAmount,
+    fetchPrice: s.fetchPrice,
+  })))
 
   const coin = COINS.find((c) => c.id === selectedCoin)
   const holding = holdings.find((h) => h.coin === selectedCoin)
